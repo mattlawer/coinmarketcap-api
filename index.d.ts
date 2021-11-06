@@ -1,3 +1,58 @@
+interface Status {
+    timestamp: Date;
+    error_code: number;
+    error_message?: any;
+    elapsed: number;
+    credit_count: number;
+    notice?: any;
+    total_count: number;
+}
+interface Platform {
+    id: number;
+    name: string;
+    symbol: string;
+    slug: string;
+    token_address: string;
+}
+interface Stat {
+    price: number;
+    volume_24h: number;
+    volume_change_24h: number;
+    percent_change_1h: number;
+    percent_change_24h: number;
+    percent_change_7d: number;
+    percent_change_30d: number;
+    percent_change_60d: number;
+    percent_change_90d: number;
+    market_cap: number;
+    market_cap_dominance: number;
+    fully_diluted_market_cap: number;
+    last_updated: Date;
+}
+interface Quote {
+    USD: Stat;
+}
+interface Coin {
+    id: number;
+    name: string;
+    symbol: string;
+    slug: string;
+    num_market_pairs: number;
+    date_added: Date;
+    tags: string[];
+    max_supply?: number;
+    circulating_supply: number;
+    total_supply: number;
+    platform: Platform;
+    cmc_rank: number;
+    last_updated: Date;
+    quote: Quote;
+}
+interface TickerResponse {
+    status: Status;
+    data: Coin[];
+}
+
 export = CoinMarketCap;
 declare class CoinMarketCap {
     /**
@@ -69,7 +124,7 @@ declare class CoinMarketCap {
      * client.getTickers({start: 0, limit: 5}).then(console.log).catch(console.error)
      * client.getTickers({sort: 'name'}).then(console.log).catch(console.error)
      */
-    getTickers(args?: {}): any;
+    getTickers(args?: {}): Promise<TickerResponse>;
     /**
      * Get latest market quote for 1 or more cryptocurrencies.
      *
